@@ -31,7 +31,8 @@ def _runMovie(movie, fromYear, toYear, min_close=5, betweenness_cutoff=5):
   avgRating = avg([moviesMap()[other]['rating'] for other in closeMovies])
   avgDegree = avg(getGraph().degree(closeVerts))
   genres = genreCounts([i for other in closeMovies for i in moviesMap()[other]['genres']])
-  if genres is None:
+  thisGenres = genreCounts(moviesMap()[movie]['genres'])
+  if genres is None or thisGenres is None:
     return None
   vid = getGraph().vcount()
   getGraph().add_vertices(1)
@@ -39,7 +40,7 @@ def _runMovie(movie, fromYear, toYear, min_close=5, betweenness_cutoff=5):
   thisDegree = getGraph().degree(vid)
   getGraph().delete_vertices(vid)
   btw = [getGraph().vs[i]['btw'] for i in closeVerts]
-  return {"target": moviesMap()[movie]['rating'], "attributes":(avgRating, avgDegree, thisDegree, genres, genreCounts(moviesMap()[movie]['genres']), avg(btw))}
+  return {"target": moviesMap()[movie]['rating'], "attributes":[avgRating, avgDegree, thisDegree] + genres + thisGenres + [avg(btw)]}
 
 def prepareDataset(actors, actresses, directors, rankings, genres, fromYear=1995, toYear=2000):
   generategraph.generateAll(actors, actresses, directors, rankings, genres, fromYear=fromYear, toYear=toYear)
