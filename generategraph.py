@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+import json
 import igraph
 import actorparser
 import ratingparser
@@ -110,7 +111,11 @@ def _generateGraph(fromYear, toYear, credits_limit, min_votes, btw_cutoff):
 
 if __name__ == "__main__":
   if len(sys.argv) == 1:
-    print "actors, actresses, rankings, genres"
+    print "actors, actresses, directors, rankings, genres, fromYear, toYear"
     exit(-2)
-  generateAll(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
-  print _graph
+  generateAll(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], fromYear=int(sys.argv[6]), toYear=int(sys.argv[7]))
+  for vert in _graph.vs:
+    vert['json'] = json.dumps(vert['properties'])
+  _graph.vs['properties'] = None
+  _graph.save(sys.stdout, format='pickle')
+  
