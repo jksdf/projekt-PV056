@@ -24,8 +24,7 @@ def run(datafilename, testdataset, divisor=1):
   dist = {i:0 for i in range(-10,10)}
   for i in test_target - y_pred:
     dist[i] += 1
-  print "distances: {}".format({i: (dist[i] + dist[-i]) if i != 0 else dist[i] for i in range(0,10)})
-  print dist
+  print "distances: {}\nabsolute distances: {}".format(dist, {i: (dist[i] + dist[-i]) if i != 0 else dist[i] for i in range(0,10)})
   dist = map(lambda x: x[1], sorted([(i,dist[i]) for i in dist]))
   plt.bar(range(-10,10), [float(i)/sum(dist) for i in dist])
   
