@@ -7,9 +7,11 @@ from sklearn.naive_bayes import GaussianNB
 import sys
 import numpy
 
-def run(datafilename, divisor=1):
+def run(datafilename, testdataset, divisor=1):
   with open(datafilename) as file:
     data = json.load(file)
+  with open(testdataset) as file:
+    test = json.load(file)
   log('Working with data from date range {}  to {}'.format(data['fromYear'], data['toYear']))
   target = numpy.array(map(lambda x: int(round(x['target']/divisor)), data['data']))
   source = numpy.array(map(lambda x: numpy.array(x['attributes'], dtype = 'f'), data['data']))
@@ -17,20 +19,21 @@ def run(datafilename, divisor=1):
   print str(target), type(target)
   bayes = GaussianNB()
   bayes.fit(source, target)
-  y_pred = bayes.predict(source)
-  dist = [0 for i in range(21)]
-  for i in target - y_pred:
-    dist[i+10] += 1
-  print "Number of mislabeled points out of a total {} points : {}".format(len(target), [dist[i+10] + dist[10-i] for i in range(0,10)])
-  plt.plot([i-10 for i in range(21)], [float(i)/sum(dist) for i in dist])
+  y_pred = bayes.predict(numpy.array(map(lambda x: x['attributes'], test['data'])))
+  test_target = numpy.array(map(lambda x: int(round(x['target'])), test['data']))
+  dist = {i:0 for i in range(-10,10)}
+  for i in test_target - y_pred:
+    dist[i] += 1
+  print "distances: {}".format({i: (dist[i] + dist[-i]) if i != 0 else dist[i] for i in range(0,10)})
+  print dist
+  dist = map(lambda x: x[1], sorted([(i,dist[i]) for i in dist]))
+  plt.bar(range(-10,10), [float(i)/sum(dist) for i in dist])
   
   
   
 
 
 if __name__ == "__main__":
-  for i in sys.argv[1:]:
-    run(i)
-    run(i, divisor=3)
+  run(sys.argv[1], sys.argv[2])
   plt.grid()
   plt.show()
