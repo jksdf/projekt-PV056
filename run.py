@@ -61,4 +61,4 @@ if __name__ == "__main__":
   fromYear = int(sys.argv[6]) if len(sys.argv) >= 8 else None
   toYear = int(sys.argv[7]) if len(sys.argv) >= 8 else None
   dataset = prepareDataset(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], fromYear=fromYear, toYear=toYear)
-  sys.stdout.write(json.dumps({"fromYear":fromYear, "toYear": toYear, "data":dataset}))
+  json.dump({"fromYear":fromYear, "toYear": toYear, "data":dataset}, sys.stdout)

@@ -80,7 +80,7 @@ def _generateGraph(fromYear, toYear, credits_limit, min_votes, btw_cutoff):
   log("Adding vertices")
   for idx, movie in enumerate(movies):
     graph.add_vertex(movie[0])
-    graph.vs[idx]["properties"] = {"rating": _movies[movie[0]]['rating'], "votes": _movies[movie[0]]["votes"]}
+    graph.vs[idx]["properties"] = {"rating": _movies[movie[0]]['rating'], "votes": _movies[movie[0]]["votes"], "actors": movie[1], "genres":_movies[movie[0]]['genres']}
   log("Vertices added")
   mvCounter = 0
   for movie, actorsInMovie in movies:

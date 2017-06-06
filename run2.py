@@ -10,7 +10,7 @@ import genreparser
 import igraph
 
 def nameConvert(x):
-  return u'{} ({})'.format(x[0], x[1]).encode('utf-8')
+  return u'{} ({})'.format(x[0], x[1])
 
 def prepareDataset(actors, actresses, directors, rankings, genres, graph):
   log('actors')
