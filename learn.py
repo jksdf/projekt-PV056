@@ -40,6 +40,8 @@ def applyLearning(target, source, test_target, test_data, model, norm=False):
   print "distances: {}\nabsolute distances: {}\nacc: {}\nmean sq err:{}".format(dist, {i: (dist[i] + dist[-i]) if i != 0 else dist[i] for i in range(0,10)}, accuracy_score(test_target, y_pred), mean_squared_error(test_target, y_pred))
   dist = map(lambda x: x[1], sorted([(i,dist[i]) for i in dist]))
   plt.bar(range(-10,11), [float(i)/sum(dist) for i in dist])
+  plt.xlabel('Error')
+  plt.ylabel('Number of errors')
   plt.grid()
   plt.show()
 
