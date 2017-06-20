@@ -114,8 +114,5 @@ if __name__ == "__main__":
     print "actors, actresses, directors, rankings, genres, fromYear, toYear"
     exit(-2)
   generateAll(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], fromYear=int(sys.argv[6]), toYear=int(sys.argv[7]))
-  for vert in _graph.vs:
-    vert['json'] = json.dumps(vert['properties'])
-  _graph.vs['properties'] = None
   _graph.save(sys.stdout, format='pickle')
   

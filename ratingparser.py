@@ -29,21 +29,3 @@ def parseRankings(filename):
         result[(parsed.group('name').strip(), int(parsed.group('year')[1:5]))] = (float(parsed.group('rank')), int(parsed.group('votes')))
   log('Finished with {} movies'.format(len(result)))
   return result
-  
-if __name__ == "__main__":
-  if len(sys.argv) != 3:
-    sys.stderr.write('First argument is input rankings, second is output')
-    exit(-1)
-  f = open(sys.argv[2], 'w')
-  f.write('{')
-  parsed = parseFile(sys.argv[1])
-  for index, val in enumerate(parsed.keys()):
-    if index != 0:
-      f.write(',')
-    f.write('\n')
-    f.write(json.dumps(val))
-    f.write(': ')
-    f.write(json.dumps([i for i in actors[val]]))
-  f.write('\n}')
-    
-  

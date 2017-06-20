@@ -58,7 +58,7 @@ def prepareDataset(actors, actresses, directors, rankings, genres, fromYear=1995
   return dataset
       
 if __name__ == "__main__":
-  fromYear = int(sys.argv[6]) if len(sys.argv) >= 8 else None
-  toYear = int(sys.argv[7]) if len(sys.argv) >= 8 else None
-  dataset = prepareDataset(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], fromYear=fromYear, toYear=toYear)
+  if len(sys.argv) == 1:
+    sys.stderr.write('actors, actresses, directors, rankings, genres, fromYear, toYear')
+  dataset = prepareDataset(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], fromYear=int(sys.argv[6]), toYear=int(sys.argv[7]))
   json.dump({"fromYear":fromYear, "toYear": toYear, "data":dataset}, sys.stdout)
