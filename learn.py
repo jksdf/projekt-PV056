@@ -46,16 +46,14 @@ def applyLearning(target, source, test_target, test_data, model, norm=False):
   plt.show()
 
 def linSVM(target, source, test_target, test_data):
-  for i in "linear poly rbf sigmoid".split(' '):
-    print "SVM", i
-    applyLearning(target, source, test_target, test_data, SVC(kernel=i, max_iter=100000), norm=True)
-  
+  print "linear SVM"
+  applyLearning(target, source, test_target, test_data, SVC(kernel='linear', max_iter=100000), norm=True)
 
 def bayesfn(target, source, test_target, test_data):
   applyLearning(target, source, test_target, test_data, GaussianNB())
-  
-  
-
 
 if __name__ == "__main__":
+  if len(sys.argv) < 2:
+    print "train dataset, test dataset"
+    exit(1)
   run(sys.argv[1], sys.argv[2])
