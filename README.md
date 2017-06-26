@@ -11,5 +11,5 @@ Graph is generated using 'generategraph.py' script. This script outputs the grap
 File 'run.py' generate datasets used by Naive Bayes and SVM and 'run2.py' generates data for ANN. Running it without any parameter prints the requered parameters.
 ## Naive Bayes and SVM
 To run Naive Bayes and an SVM, use 'learn.py' file. It uses matplotlib.pyplot to display all results in series.
-##Apriori
+## Apriori
 Apriori generation is done using the 'gapriori.py' script. The output is sent to the output stream as a list of genre tuples where they each genre has either a 1 or 2 suffix to signify different movies (if both genres share the same suffix, they are in the same movie) and their support.
