@@ -13,3 +13,6 @@ File 'run.py' generate datasets used by Naive Bayes and SVM and 'run2.py' genera
 To run Naive Bayes and an SVM, use 'learn.py' file. It uses matplotlib.pyplot to display all results in series.
 ## Apriori
 Apriori generation is done using the 'gapriori.py' script. The output is sent to the output stream as a list of genre tuples where they each genre has either a 1 or 2 suffix to signify different movies (if both genres share the same suffix, they are in the same movie) and their support.
+## Modules
+igraph, apyori, matplotlib
+

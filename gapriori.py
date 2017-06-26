@@ -87,9 +87,4 @@ if __name__ == "__main__":
   for i in res2:
     if tuple(sorted(map(lambda x: x.replace('1','9').replace('2','1').replace('9', '2'), i[0]))) not in res:
       res.add(i)
-  print '['
-  for idx, i in enumerate(res2):
-    if idx != 0:
-      print ',',
-    print json.dumps({'items':list(i[0]),'support':i[1]})
-  print ']'
+  json.dump({'data': [{'items': list(i[0]), 'support': i[1]} for i in res2]}, sys.stdout)
