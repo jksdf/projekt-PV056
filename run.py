@@ -58,7 +58,13 @@ def prepareDataset(actors, actresses, directors, rankings, genres, fromYear=1995
   return dataset
       
 if __name__ == "__main__":
-  if len(sys.argv) == 1:
-    sys.stderr.write('actors, actresses, directors, rankings, genres, fromYear, toYear')
-  dataset = prepareDataset(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], fromYear=int(sys.argv[6]), toYear=int(sys.argv[7]))
-  json.dump({"fromYear":fromYear, "toYear": toYear, "data":dataset}, sys.stdout)
+  if sys.platform == 'win32': # fix for stdout binary 
+    import os, msvcrt
+    msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
+  if len(sys.argv) < 5:
+    sys.stderr.write('actors, actresses, directors, rankings, genres, fromYear, toYear\n')
+    exit(-2)
+  fromYear = int(sys.argv[6])
+  toYear = int(sys.argv[7])
+  dataset = prepareDataset(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], fromYear=fromYear, toYear=toYear)
+  json.dump({"fromYear": fromYear, "toYear": toYear, "data":dataset}, sys.stdout)

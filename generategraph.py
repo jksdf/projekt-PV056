@@ -83,6 +83,7 @@ def _generateGraph(fromYear, toYear, credits_limit, min_votes, btw_cutoff):
     graph.vs[idx]["properties"] = {"rating": _movies[movie[0]]['rating'], "votes": _movies[movie[0]]["votes"], "actors": movie[1], "genres":_movies[movie[0]]['genres']}
   log("Vertices added")
   mvCounter = 0
+  edges = defaultdict(lambda: 0)
   for movie, actorsInMovie in movies:
     if mvCounter % 500 == 0:
       logSameLine("{} movies out of {} added".format(mvCounter, len(movies)))
@@ -91,13 +92,9 @@ def _generateGraph(fromYear, toYear, credits_limit, min_votes, btw_cutoff):
       for othermovie in actors[actor]:
         if _verts[movie] != _verts[othermovie]:
           aidx, bidx = _verts[movie], _verts[othermovie]
-          try:
-            graph.es[graph.get_eid(aidx, bidx)]["weight"] += 1
-          except igraph.InternalError:
-            eid = graph.ecount()
-            graph.add_edges((aidx, bidx))
-            graph.es[eid]["weight"] = 1
-      #graph.add_edges(((verts[movie], verts[othermovie]) for othermovie in actors[actor] if verts[movie] != verts[othermovie]))
+          edges[(aidx, bidx)] += 1
+  graph.add_edges(edges.keys())
+  graph.es['weight'] = edges.values()
   endLogSameLine()
   _graph = graph
   log("All edges added")
@@ -110,8 +107,11 @@ def _generateGraph(fromYear, toYear, credits_limit, min_votes, btw_cutoff):
 
 
 if __name__ == "__main__":
+  if sys.platform == 'win32': # fix for stdout binary 
+    import os, msvcrt
+    msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
   if len(sys.argv) == 1:
-    print "actors, actresses, directors, rankings, genres, fromYear, toYear"
+    log("actors, actresses, directors, rankings, genres, fromYear, toYear")
     exit(-2)
   generateAll(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], fromYear=int(sys.argv[6]), toYear=int(sys.argv[7]))
   _graph.save(sys.stdout, format='pickle')

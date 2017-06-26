@@ -37,6 +37,9 @@ def prepareDataset(actors, actresses, directors, rankings, genres, graph):
   return mov2data
       
 if __name__ == "__main__":
+  if sys.platform == 'win32': # fix for stdout binary 
+    import os, msvcrt
+    msvcrt.setmode(sys.stdout.fileno(), os.O_BINARY)
   if len(sys.argv) == 1:
     log('actors, actersses, directors, ratings, genres, graph')
     exit(1)
