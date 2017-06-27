@@ -15,4 +15,10 @@ To run Naive Bayes and an SVM, use 'learn.py' file. It uses matplotlib.pyplot to
 Apriori generation is done using the 'gapriori.py' script. The output is sent to the output stream as a list of genre tuples where they each genre has either a 1 or 2 suffix to signify different movies (if both genres share the same suffix, they are in the same movie) and their support.
 ## Modules
 igraph, apyori, matplotlib
-
+## Examples
+Generate dataset to predict movies from 2000 from movies in 1980 - 1999:
+`./run.py actors.list actresses.list directors.list ratings.list genres.list 1980 2000 > dataset_1980_2000.json`
+Use two such datasets for learning:
+`./learn.py dataset_1970_1990.json dataset_1990_2010.json`
+To use apriori algorithm:
+`./gapriori.py actors.list actresses.list directors.list ratings.list genres.list 1980 2000 > results.json`
